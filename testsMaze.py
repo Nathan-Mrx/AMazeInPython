@@ -64,3 +64,11 @@ print(f"Liste des cellules : \n{L}")
 
 labyVide = Maze(4, 4, True)
 print(labyVide)
+
+
+laby = Maze(5, 5, empty = True)
+print(laby)
+laby.add_wall((0,0), (0,1))
+print(laby)
+laby.remove_wall((0,0), (0,1))
+print(laby)

@@ -17,11 +17,12 @@ class Maze:
         self.height    = height
         self.width     = width
         self.neighbors = {(i,j): set() for i in range(height) for j in range (width)}
+
         if empty:
             for x in range(height):
                 for y in range(width):
                     for i in range(x - 1, x + 2):
-                        # On entre dans une bouble allant de la case du haut à la case du bas
+                        # On entre dans une boucle allant de la case du haut à la case du bas
                         for j in range(y - 1, y + 2):
                             # Si on ne regarde pas la cellule de départ et qu'on n'as pas dépassé les limites de la grille,
                             if (i, j) != (x, y) and 0 <= i <= height - 1 and 0 <= j <= width - 1:
@@ -85,3 +86,39 @@ class Maze:
         txt += "━━━┛\n"
 
         return txt
+
+    def add_wall(self, c1, c2):
+        '''
+        Ajoute un mur entre c1 et c2.
+
+        :param c1: première cellule
+        :param c2: seconde cellule
+        '''
+        # Facultatif : on teste si les sommets sont bien dans le labyrinthe
+        assert 0 <= c1[0] < self.height and \
+               0 <= c1[1] < self.width and \
+               0 <= c2[0] < self.height and \
+               0 <= c2[1] < self.width, \
+            f"Erreur lors de l'ajout d'un mur entre {c1} et {c2} : les coordonnées de sont pas compatibles avec les dimensions du labyrinthe"
+        # Ajout du mur
+        if c2 in self.neighbors[c1]:  # Si c2 est dans les voisines de c1
+            self.neighbors[c1].remove(c2)  # on le retire
+        if c1 in self.neighbors[c2]:  # Si c3 est dans les voisines de c2
+            self.neighbors[c2].remove(c1)  # on le retire
+
+
+    def remove_wall(self, c1, c2):
+        if not ((0 <= c1[0] <= self.height) and
+                (0 <= c2[0] <= self.height) and
+                (0 <= c1[1] <= self.width) and
+                (0 <= c2[1] <= self.width)):
+            raise ValueError("remove_wall : au moins une cellule est hors du labyrinthe")
+
+        if  not ((abs(c1[0]-c2[0]) <= 1 and abs(c1[1]-c2[1]) <= 0) or
+                (abs(c1[0]-c2[0]) <= 0 and abs(c1[1]-c2[1]) <= 1)):
+            raise ValueError("remove_wall : Les cellules ne sont pas adjacentes")
+
+        if not c2 in self.neighbors[c1]:
+            self.neighbors[c1].add(c2)
+        if not c1 in self.neighbors[c2]:
+            self.neighbors[c2].add(c1)
