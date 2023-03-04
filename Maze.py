@@ -140,3 +140,15 @@ class Maze:
                                 ((i, j), (x, y)) not in walls :
                             walls.append(((x, y), (i, j)))
         return walls
+
+
+    def fill(self):
+        '''
+        Ajoute tous les murs possibles dans le labyrinthe.
+        '''
+        for x in range(self.height):
+            for y in range(self.width):
+                for i in range(x - 1, x + 2):
+                    for j in range(y - 1, y + 2):
+                        if (i, j) != (x, y) and 0 <= i <= self.height - 1 and 0 <= j <= self.width - 1:
+                            self.add_wall((i, j), (x, y))
