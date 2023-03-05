@@ -19,15 +19,8 @@ class Maze:
         self.neighbors = {(i,j): set() for i in range(height) for j in range (width)}
 
         if empty:
-            for x in range(height):
-                for y in range(width):
-                    for i in range(x - 1, x + 2):
-                        # On entre dans une boucle allant de la case du haut à la case du bas
-                        for j in range(y - 1, y + 2):
-                            # Si on ne regarde pas la cellule de départ et qu'on n'as pas dépassé les limites de la grille,
-                            if (i, j) != (x, y) and 0 <= i <= height - 1 and 0 <= j <= width - 1:
-                                # alors on enregistre le voisin
-                                self.neighbors[x, y].add((i, j))
+            self.empty()
+
 
     def info(self):
         """
@@ -131,14 +124,20 @@ class Maze:
         :return: liste des murs
         '''
         walls = []
-        for x in range(self.height):
-            for y in range(self.width):
-                for i in range(x - 1, x + 2):
-                    for j in range(y - 1, y + 2):
-                        if not (i, j) in self.neighbors[x, y] and (i, j) != (x, y) and  \
-                                0 <= i <= self.height - 1 and 0 <= j <= self.width - 1 and \
-                                ((i, j), (x, y)) not in walls :
-                            walls.append(((x, y), (i, j)))
+
+        for key in self.neighbors.keys():
+            # generate all links
+            possibles_links = {(key[0], key[1]-1),  # right
+                               (key[0]+1, key[1])} # bottom
+
+            # remove existing links
+            destinations = possibles_links - self.neighbors[key]
+
+            # remove out of range walls
+            for destination in destinations:
+                if 0 <= destination[0] < self.height and 0 <= destination[1] < self.width:
+                    walls.append( (key, destination) )
+
         return walls
 
 
@@ -146,9 +145,48 @@ class Maze:
         '''
         Ajoute tous les murs possibles dans le labyrinthe.
         '''
+        for key in self.neighbors.keys():
+            self.neighbors[key] = []
+
+
+    def empty(self):
         for x in range(self.height):
             for y in range(self.width):
-                for i in range(x - 1, x + 2):
-                    for j in range(y - 1, y + 2):
-                        if (i, j) != (x, y) and 0 <= i <= self.height - 1 and 0 <= j <= self.width - 1:
-                            self.add_wall((i, j), (x, y))
+                self.neighbors[(x,y)] = set()
+                possibles_links = self.get_contiguous_cells((x, y))
+
+                for destination in possibles_links:
+                    if 0 <= destination[0] < self.height and 0 <= destination[1] < self.width:
+                        self.neighbors[(x,y)].add(destination)
+
+    def get_contiguous_cells(self, c: tuple)-> list:
+        '''
+        Retourne la liste des cellules contigües à c dans la grille (sans s’occuper des éventuels murs)
+
+        :param c: tuple (x, y) contenant les coordonnées de la cellule à traiter
+        :return: liste des cellules contigües à c
+        '''
+        x = c[0]
+        y = c[1]
+        self.neighbors[(x,y)] = set()
+        contiguous_cells = [(x, y + 1),  # left
+                            (x, y - 1),  # right
+                            (x - 1, y),  # top
+                            (x + 1, y)]  # bottom
+        return contiguous_cells
+
+
+
+    def get_reachable_cells(self, c: tuple)-> list:
+        '''
+        Retourne la liste des cellules accessibles depuis c (c’est-à-dire les cellules contiguës à c qui sont dans le voisinage de c)
+
+        :param c: tuple (x, y) contenant les coordonnées de la cellule à traiter
+        :return: liste des cellules accessibles via c
+        '''
+        reachable_cells = []
+        contiguous_cells = self.get_contiguous_cells(c)
+        for cell in contiguous_cells:
+            if cell not in self.neighbors[c]:
+                reachable_cells.append(cell)
+        return reachable_cells
