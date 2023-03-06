@@ -1,3 +1,5 @@
+from icecream import ic
+import random as r
 class Maze:
     """
     Classe Labyrinthe
@@ -135,7 +137,7 @@ class Maze:
 
             # remove out of range walls
             for destination in destinations:
-                if 0 <= destination[0] < self.height and 0 <= destination[1] < self.width:
+                if self.is_in_maze(destination):
                     walls.append( (key, destination) )
 
         return walls
@@ -156,8 +158,7 @@ class Maze:
                 possibles_links = self.get_contiguous_cells((x, y))
 
                 for destination in possibles_links:
-                    if 0 <= destination[0] < self.height and 0 <= destination[1] < self.width:
-                        self.neighbors[(x,y)].add(destination)
+                    self.neighbors[(x,y)].add(destination)
 
     def get_contiguous_cells(self, c: tuple)-> list:
         '''
@@ -173,6 +174,9 @@ class Maze:
                             (x, y - 1),  # right
                             (x - 1, y),  # top
                             (x + 1, y)]  # bottom
+        for cell in contiguous_cells:
+            if not (self.is_in_maze(cell)):
+                contiguous_cells.remove(cell)
         return contiguous_cells
 
 
@@ -190,3 +194,19 @@ class Maze:
             if cell not in self.neighbors[c]:
                 reachable_cells.append(cell)
         return reachable_cells
+
+    def get_cells(self)-> list:
+        cells = []
+        for x in range(self.height):
+            for y in range(self.width):
+                cells.append( (x, y) )
+        return cells
+
+    def is_in_maze(self, c: tuple):
+        '''
+        Retourne True si les coordonnées sont cohérentes avec le labyrinthe, False sinon
+
+        :param c: tuple (x, y) de coordonnées
+        :return:
+        '''
+        return 0 <= c[0] < self.height and 0 <= c[1] < self.width
