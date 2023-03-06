@@ -1,4 +1,3 @@
-from icecream import ic
 import random as r
 class Maze:
     """
@@ -210,3 +209,24 @@ class Maze:
         :return:
         '''
         return 0 <= c[0] < self.height and 0 <= c[1] < self.width
+
+    def exploration(self,valeurs:list):
+        cellule_recup = get_cells()
+        cellule = r.randint(0,cellule_recup)
+        pile = self.valeurs.append(cellule)
+        while pile is not False:
+            pille = pile.remove(cellule)
+
+
+        '''Initialisation :
+Choisir une cellule au hasard
+Marquer cette cellule comme étant visitée
+Mettre cette cellule dans sur une pile
+Tant que la pile n’est pas vide :
+Prendre la cellule en haut de la pile et l’en retirer
+Si cette cellule a des voisins qui n’ont pas encore été visités :
+La remettre sur la pile
+Choisir au hasard l’une de ses cellules contigües qui n’a pas été visitée
+Casser le mur entre la cellule (celle qui a été dépilée) et celle qui vient d’être choisie
+Marquer la cellule qui vient d’être choisie comme visitée
+Et la mettre sur la pile'''
