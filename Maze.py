@@ -196,11 +196,7 @@ class Maze:
         return reachable_cells
 
     def get_cells(self)-> list:
-        cells = []
-        for x in range(self.height):
-            for y in range(self.width):
-                cells.append( (x, y) )
-        return cells
+        return [key for key in self.neighbors.keys()]
 
     def is_in_maze(self, c: tuple):
         '''
@@ -210,3 +206,38 @@ class Maze:
         :return:
         '''
         return 0 <= c[0] < self.height and 0 <= c[1] < self.width
+
+
+
+    @classmethod
+    def gen_btree(cls, h, w):
+        '''
+        Génère une labyrinthe à h lignes et w colonnes, en utilisant l’algorithme de construction par arbre binaire.
+
+        :param h: hauteur du labyrinthe
+        :param w: largeur du labyrinthe
+        :return: le labyrinthe généré
+        '''
+        laby = Maze(h, w)
+        cells = laby.get_cells()
+        for cell in cells:
+            contiguous_cells = []
+            if cell[1] != laby.height-1:
+                contiguous_cells.append((cell[0], cell[1] + 1))  # right
+            if cell[0] != laby.width-1:
+                contiguous_cells.append((cell[0] + 1, cell[1]))  # bottom
+            ic(contiguous_cells)
+            # get already opened ways
+            reachable_cells = laby.get_reachable_cells(cell)
+
+            if len(contiguous_cells) == 2:
+                contiguous_cell = r.choice(contiguous_cells)
+                if contiguous_cell not in reachable_cells:
+                    laby.remove_wall(cell, contiguous_cell)
+                else:
+                    contiguous_cells.remove(contiguous_cell)
+
+            if len(contiguous_cells) == 1:
+                if contiguous_cells[0] not in reachable_cells:
+                    laby.remove_wall(cell, contiguous_cells[0])
+        return laby
