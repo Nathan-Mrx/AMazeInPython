@@ -1,4 +1,5 @@
 import random as r
+from icecream import ic
 class Maze:
     """
     Classe Labyrinthe
@@ -209,13 +210,43 @@ class Maze:
         :return:
         '''
         return 0 <= c[0] < self.height and 0 <= c[1] < self.width
+    @classmethod
+    def exploration(cls,w,h):
+        laby = Maze(h,w)
+        cellule_recup = laby.get_cells()
+        cellule = r.choice(cellule_recup)
+        visiter = []
+        visiter = [cellule]
+        pile = []
+        pile.append(cellule)
+        while len(pile)>0:
+            pile_haut = pile.pop()
+            voisins = laby.get_contiguous_cells(pile_haut)
+            i=0
+            while i != len(voisins):
+                if not laby.is_in_maze(voisins[i]):
+                    del voisins[i]
+                    i-=1
+                i+=1
 
-    def exploration(self,valeurs:list):
-        cellule_recup = get_cells()
-        cellule = r.randint(0,cellule_recup)
-        pile = self.valeurs.append(cellule)
-        while pile is not False:
-            pille = pile.remove(cellule)
+            voisin_non_visiter = []
+            for voisin in voisins:
+                if voisin not in visiter:
+                    pile.append(pile_haut)
+                    voisin_non_visiter.append(voisin)
+            if(len(voisin_non_visiter) > 0):
+                target_cell = r.choice(voisin_non_visiter)
+                laby.remove_wall(pile_haut, target_cell)
+                visiter.append(target_cell)
+                pile.append(target_cell)
+
+
+        return laby
+        
+
+            
+
+
 
 
         '''Initialisation :
