@@ -330,17 +330,17 @@ class Maze:
 
     @classmethod
     def gen_exploration(cls, w, h):
-        # Initialise le labyrinthe avec une cellule recupérée aléatoirement dans les cellules disponnible.
+        # Initialise le labyrinthe avec une cellule recupérée aléatoirement dans les cellules disponibles.
         laby = cls(h, w)
         cellule_recup = laby.get_cells()
         cellule = r.choice(cellule_recup)
         visiter = [cellule]
         pile = [cellule]
-        # créer un tanque qui dit que si pile n'est pas vide alors ca continue
+        # tant que la pile n'est pas vide
         while pile:
             pile_haut = pile.pop(0)
             non_visited = []
-            # Vérifie si la cellule a des voisin non visiter
+            # Vérifie si la cellule a des voisins non visités
             for cell in laby.get_contiguous_cells(pile_haut):
                 if cell not in visiter:
                     if laby.is_in_maze(cell):
@@ -352,58 +352,60 @@ class Maze:
             if non_visited:
                 pile.insert(0, pile_haut)
                 ma_cellule = r.choice(non_visited)
-                ic(pile_haut, ma_cellule)
                 laby.remove_wall(pile_haut, ma_cellule)
                 visiter.append(ma_cellule)
                 pile.insert(0, ma_cellule)
         return laby
 
-
     def overlay(self, content=None):
         """
         Rendu en mode texte, sur la sortie standard, \
         d'un labyrinthe avec du contenu dans les cellules
-        Argument:
+        Argument :
             content (dict) : dictionnaire tq content[cell] contient le caractère à afficher au milieu de la cellule
-        Retour:
+        Retour :
             string
         """
         if content is None:
-            content = {(i,j):' ' for i in range(self.height) for j in range(self.width)}
+            content = {(i, j): ' ' for i in range(self.height) for j in range(self.width)}
         else:
             # Python >=3.9
-            #content = content | {(i, j): ' ' for i in range(
+            # content = content | {(i, j): ' ' for i in range(
             #    self.height) for j in range(self.width) if (i,j) not in content}
             # Python <3.9
-            new_content = {(i, j): ' ' for i in range(self.height) for j in range(self.width) if (i,j) not in content}
+            new_content = {(i, j): ' ' for i in range(self.height) for j in range(self.width) if (i, j) not in content}
             content = {**content, **new_content}
         txt = r""
         # Première ligne
         txt += "┏"
-        for j in range(self.width-1):
+        for j in range(self.width - 1):
             txt += "━━━┳"
         txt += "━━━┓\n"
         txt += "┃"
-        for j in range(self.width-1):
-            txt += " "+content[(0,j)]+" ┃" if (0,j+1) not in self.neighbors[(0,j)] else " "+content[(0,j)]+"  "
-        txt += " "+content[(0,self.width-1)]+" ┃\n"
+        for j in range(self.width - 1):
+            txt += " " + content[(0, j)] + " ┃" if (0, j + 1) not in self.neighbors[(0, j)] else " " + content[
+                (0, j)] + "  "
+        txt += " " + content[(0, self.width - 1)] + " ┃\n"
         # Lignes normales
-        for i in range(self.height-1):
+        for i in range(self.height - 1):
             txt += "┣"
-            for j in range(self.width-1):
-                txt += "━━━╋" if (i+1,j) not in self.neighbors[(i,j)] else "   ╋"
-            txt += "━━━┫\n" if (i+1,self.width-1) not in self.neighbors[(i,self.width-1)] else "   ┫\n"
+            for j in range(self.width - 1):
+                txt += "━━━╋" if (i + 1, j) not in self.neighbors[(i, j)] else "   ╋"
+            txt += "━━━┫\n" if (i + 1, self.width - 1) not in self.neighbors[(i, self.width - 1)] else "   ┫\n"
             txt += "┃"
             for j in range(self.width):
-                txt += " "+content[(i+1,j)]+" ┃" if (i+1,j+1) not in self.neighbors[(i+1,j)] else " "+content[(i+1,j)]+"  "
+                txt += " " + content[(i + 1, j)] + " ┃" if (i + 1, j + 1) not in self.neighbors[(i + 1, j)] else " " + \
+                                                                                                                 content[
+                                                                                                                     (
+                                                                                                                     i + 1,
+                                                                                                                     j)] + "  "
             txt += "\n"
         # Bas du tableau
         txt += "┗"
-        for i in range(self.width-1):
+        for i in range(self.width - 1):
             txt += "━━━┻"
         txt += "━━━┛\n"
         return txt
-
 
     def solve_dfs(self, start, stop):
         """
@@ -414,35 +416,34 @@ class Maze:
         :return: la liste des cellules à explorer dans l'ordre pour aller du point start à stop.
         """
         visited = []
-        pile = [start] # Placer start dans la struture d’attente (pile) et marquer start
+        pile = [start]  # Placer start dans la struture d’attente (pile) et marquer start
         found = False
-        predecesseurs = {start: start} # Mémoriser l’élément prédécesseur de start comme étant start
-        while len(visited) < self.width*self.height and not found: # Tant qu’il reste des cellules non-marquées
-            cell = pile.pop() # Prendre la « première » cellule et la retirer de la structure
+        predecesseurs = {start: start}  # Mémoriser l’élément prédécesseur de start comme étant start
+        while len(visited) < self.width * self.height and not found:  # Tant qu’il reste des cellules non-marquées
+            cell = pile.pop()  # Prendre la « première » cellule et la retirer de la structure
             if cell == stop:
-                found = True # on a trouvé un chemin vers la cellule de destination
+                found = True  # on a trouvé un chemin vers la cellule de destination
             else:
-                for neighbor in self.get_reachable_cells(cell): # Pour chaque voisine de cell
-                    if neighbor not in visited: # Si elle n’est pas marquée
-                        visited.append(neighbor) # La marquer
-                        pile.append(neighbor) # La mettre dans la structure d’attente
-                        predecesseurs[neighbor] = cell # Mémoriser son prédécesseur comme étant c
+                for neighbor in self.get_reachable_cells(cell):  # Pour chaque voisine de cell
+                    if neighbor not in visited:  # Si elle n’est pas marquée
+                        visited.append(neighbor)  # La marquer
+                        pile.append(neighbor)  # La mettre dans la structure d’attente
+                        predecesseurs[neighbor] = cell  # Mémoriser son prédécesseur comme étant c
 
         cell = stop
         way = []
         while cell != start:
             way.append(cell)
-            cell = predecesseurs[cell] # mettre le prédécesseur de cell dans cell
+            cell = predecesseurs[cell]  # mettre le prédécesseur de cell dans cell
         way.append(start)
 
         return way
-
 
     def solve_rhr(self, start, stop):
         """
         Résout le labyrinthe en utilisant la technique de la main droite, à partir de la cellule de départ donnée.
 
-        :return: la liste ordonnée des cellules visitées pour atteindre la sortie.
+        :return: La liste ordonnée des cellules visitées pour atteindre la sortie.
         """
         # On initialise la cellule courante avec la cellule de départ et la direction avec 'droite'.
         current_cell = start
