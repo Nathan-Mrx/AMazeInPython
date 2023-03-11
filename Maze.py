@@ -105,20 +105,28 @@ class Maze:
             self.neighbors[c2].remove(c1)  # on le retire
 
     def remove_wall(self, c1, c2):
+        """
+        Retire le mur entre c1 et c2.
+
+        :param c1: première cellule
+        :param c2: seconde cellule
+        """
+        # On teste si les sommets sont bien dans le labyrinthe
         if not ((0 <= c1[0] <= self.height) and
                 (0 <= c2[0] <= self.height) and
                 (0 <= c1[1] <= self.width) and
                 (0 <= c2[1] <= self.width)):
             raise ValueError("remove_wall : au moins une cellule est hors du labyrinthe")
 
+        # On teste si les cellules sont adjacentes
         if not ((abs(c1[0] - c2[0]) <= 1 and abs(c1[1] - c2[1]) <= 0) or
                 (abs(c1[0] - c2[0]) <= 0 and abs(c1[1] - c2[1]) <= 1)):
             raise ValueError("remove_wall : Les cellules ne sont pas adjacentes")
 
         if c2 not in self.neighbors[c1]:  # Si c2 est dans les voisines de c1
-            self.neighbors[c1].add(c2)
+            self.neighbors[c1].add(c2) # Alors, on ajoute c2 aux voisins de c1
         if c1 not in self.neighbors[c2]:  # Si c1 est dans les voisines de c2
-            self.neighbors[c2].add(c1)
+            self.neighbors[c2].add(c1) # Alors, on ajoute c1 aux voisins de c2
 
     def get_walls(self):
         """
@@ -191,6 +199,11 @@ class Maze:
         return [cell for cell in self.neighbors[c]]
 
     def get_cells(self) -> list:
+        """
+        Retourne la liste de toutes les cellules de la grille du labyrinthe.
+
+        :return: liste de cellules (x, y)
+        """
         return [key for key in self.neighbors.keys()]
 
     def is_in_maze(self, c: tuple):
@@ -215,11 +228,10 @@ class Maze:
         cells = laby.get_cells()
         for cell in cells:
             contiguous_cells = []
-            if cell[1] != laby.height - 1:
+            if cell[1] != laby.width - 1:
                 contiguous_cells.append((cell[0], cell[1] + 1))  # right
-            if cell[0] != laby.width - 1:
+            if cell[0] != laby.height - 1:
                 contiguous_cells.append((cell[0] + 1, cell[1]))  # bottom
-
             # get already opened ways
             reachable_cells = laby.get_reachable_cells(cell)
 

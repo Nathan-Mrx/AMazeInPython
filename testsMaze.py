@@ -1,7 +1,4 @@
 from Maze import *
 
-Btree = Maze.gen_btree(8, 8)
-print(Btree)
-Btree.fill()
-Btree.empty()
+Btree = Maze.gen_btree(6, 12)
 print(Btree)
