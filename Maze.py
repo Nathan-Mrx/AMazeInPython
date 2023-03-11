@@ -486,3 +486,14 @@ class Maze:
                 elif current_direction == 'bas':
                     current_direction = 'droite'
         return visited_cells
+
+
+    def distance_geo(self, cell1, cell2):
+        """
+        Calcule la distance géodésique entre deux cellules.
+
+        :param cell1: La première cellule.
+        :param cell2: La deuxième cellule.
+        :return: La distance géodésique entre les deux cellules.
+        """
+        return len(self.solve_dfs(cell1, cell2)) - 1

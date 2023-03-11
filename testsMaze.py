@@ -1,8 +1,9 @@
 from Maze import *
 
-laby = Maze.gen_fusion(4, 4)
-solution = laby.solve_rhr((0, 0), (3, 3))
+laby = Maze.gen_exploration(8, 8)
+solution = laby.solve_dfs((0, 0), (7, 7))
 str_solution = {c:'*' for c in solution}
 str_solution[( 0,  0)] = 'D'
-str_solution[(14, 14)] = 'A'
+str_solution[(7, 7)] = 'A'
 print(laby.overlay(str_solution))
+print(laby.distance_geo((0, 0), (7, 7)))
