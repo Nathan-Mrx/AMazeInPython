@@ -102,7 +102,7 @@ class Maze:
             self.neighbors[c2].remove(c1)  # on le retire
 
 
-    def remove_wall(self, c1, c2):
+    def remove_wall(self, c1:tuple , c2:tuple):
         if not ((0 <= c1[0] <= self.height) and
                 (0 <= c2[0] <= self.height) and
                 (0 <= c1[1] <= self.width) and
@@ -169,7 +169,6 @@ class Maze:
         '''
         x = c[0]
         y = c[1]
-        self.neighbors[(x,y)] = set()
         contiguous_cells = [(x, y + 1),  # left
                             (x, y - 1),  # right
                             (x - 1, y),  # top
@@ -202,70 +201,31 @@ class Maze:
         '''
         return 0 <= c[0] < self.height and 0 <= c[1] < self.width
 
-
-    # @classmethod
-    # def exploration(cls,w,h):
-    #     laby = Maze(h,w)
-    #     cellule_recup = laby.get_cells()
-    #     cellule = r.choice(cellule_recup)
-    #     visiter = []
-    #     visiter = [cellule]
-    #     pile = []
-    #     pile.append(cellule)
-    #     while len(pile)>0:
-    #         pile_haut = pile.pop()
-    #         voisins = laby.get_contiguous_cells(pile_haut)
-    #         i=0
-    #         while i != len(voisins):
-    #             if not laby.is_in_maze(voisins[i]):
-    #                 del voisins[i]
-    #                 i-=1
-    #             i+=1
-    #
-    #         voisin_non_visiter = []
-    #         for voisin in voisins:
-    #             if voisin not in visiter:
-    #                 pile.append(pile_haut)
-    #                 voisin_non_visiter.append(voisin)
-    #         if(len(voisin_non_visiter) > 0):
-    #             target_cell = r.choice(voisin_non_visiter)
-    #             laby.remove_wall(pile_haut, target_cell)
-    #             visiter.append(target_cell)
-    #             pile.append(target_cell)
-    #
-    #
-    #     return laby
-        
-
-
-    # Initialisation :
-    # Choisir une cellule au hasard
-    # Marquer cette cellule comme étant visitée
-    # Mettre cette cellule dans sur une pile
-    # Tant que la pile n’est pas vide :
-    # Prendre la cellule en haut de la pile et l’en retirer
-    # Si cette cellule a des voisins qui n’ont pas encore été visités :
-    # La remettre sur la pile
-    # Choisir au hasard l’une de ses cellules contigües qui n’a pas été visitée
-    # Casser le mur entre la cellule (celle qui a été dépilée) et celle qui vient d’être choisie
-    # Marquer la cellule qui vient d’être choisie comme visitée
-    # Et la mettre sur la pile
-
     @classmethod
     def exploration(cls, w, h):
+        #Initialise le labyrinthe avec une cellule recupérée aléatoirement dans les cellules disponnible.
         laby = cls(h, w)
         cellule_recup = laby.get_cells()
         cellule = r.choice(cellule_recup)
         visiter = [cellule]
         pile = [cellule]
+        #créer un tanque qui dit que si pile n'est pas vide alors ca continue
         while pile:
             pile_haut = pile.pop(0)
-            non_visited = [cell for cell in laby.get_contiguous_cells(pile_haut) if cell not in visiter if laby.is_in_maze(cell)]
+            non_visited = []
+            #Vérifie si la cellule a des voisin non visiter
+            for cell in laby.get_contiguous_cells(pile_haut):
+                if cell not in visiter:
+                    if laby.is_in_maze(cell):
+                        non_visited.append(cell)
+            '''
+            Vérifie si la cellule est non visiter si c'est non visiter il remet sur la pile la cellule
+            et choisie une cellule aléatoirement parmis les non visiter et retire le mur entre les deux
+            '''
             if non_visited:
                 pile.insert(0,pile_haut)
                 ma_cellule = r.choice(non_visited)
-                ic(pile_haut)
-                ic(ma_cellule)
+                ic(pile_haut,ma_cellule)
                 laby.remove_wall(pile_haut, ma_cellule)
                 visiter.append(ma_cellule)
                 pile.insert(0,ma_cellule)
