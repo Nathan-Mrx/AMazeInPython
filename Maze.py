@@ -124,9 +124,9 @@ class Maze:
             raise ValueError("remove_wall : Les cellules ne sont pas adjacentes")
 
         if c2 not in self.neighbors[c1]:  # Si c2 est dans les voisines de c1
-            self.neighbors[c1].add(c2) # Alors, on ajoute c2 aux voisins de c1
+            self.neighbors[c1].add(c2)  # Alors, on ajoute c2 aux voisins de c1
         if c1 not in self.neighbors[c2]:  # Si c1 est dans les voisines de c2
-            self.neighbors[c2].add(c1) # Alors, on ajoute c1 aux voisins de c2
+            self.neighbors[c2].add(c1)  # Alors, on ajoute c1 aux voisins de c2
 
     def get_walls(self):
         """
@@ -245,4 +245,44 @@ class Maze:
             if len(contiguous_cells) == 1:
                 if contiguous_cells[0] not in reachable_cells:
                     laby.remove_wall(cell, contiguous_cells[0])
+        return laby
+
+    @classmethod
+    def gen_sidewinder(cls, h, w):
+        """
+        Génère une labyrinthe à h lignes et w colonnes, en utilisant l’algorithme sidewinder.
+
+        :param h: hauteur du labyrinthe
+        :param w: largeur du labyrinthe
+        :return: le labyrinthe généré
+        """
+        laby = Maze(h, w)  # création d’un labyrinthe plein
+
+        for i in range(laby.height - 1):
+            seq = []  # Initialiser une variable séquence comme liste vide
+            for j in range(laby.width - 1):
+                seq.append((i, j))  # Ajouter la cellule (i, j) à la séquence
+                is_pile = bool(r.getrandbits(1))  # Tirer à pile ou face
+                if is_pile and j < laby.width - 2:  # Si c’est pile et qu'on n'est pas sur la dernière colonne
+                    contiguous_cell = (i, j + 1)
+                    laby.remove_wall((i, j), contiguous_cell)  # Casser le mur EST de la cellule (i, j)
+                else:  # Si c'est face ou si on est sur la dernière colonne
+                    if seq:  # Si la séquence n'est pas vide
+                        cell = r.choice(seq)  # Choisir une cellule de la séquence au hasard
+                        south_cell = (cell[0] + 1, cell[1])
+                        laby.remove_wall(cell, south_cell)  # Casser le mur SUD de la cellule choisie
+                    seq = []  # Réinitialiser la séquence à une liste vide
+
+            # Ajouter la dernière cellule à la séquence et casser son mur SUD
+            seq.append((i, laby.width - 1))
+            south_cell = (i + 1, laby.width - 1)
+            laby.remove_wall(seq[-1], south_cell)
+
+        # Casser tous les murs EST de la dernière ligne
+        for j in range(laby.width - 1):
+            cell = (laby.height - 1, j)
+            east_cell = (cell[0], cell[1] + 1)
+            if laby.is_in_maze(east_cell):
+                laby.remove_wall(cell, east_cell)
+
         return laby
