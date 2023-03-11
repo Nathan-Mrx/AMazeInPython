@@ -329,7 +329,7 @@ class Maze:
         return laby
 
     @classmethod
-    def exploration(cls, w, h):
+    def gen_exploration(cls, w, h):
         # Initialise le labyrinthe avec une cellule recupérée aléatoirement dans les cellules disponnible.
         laby = cls(h, w)
         cellule_recup = laby.get_cells()
