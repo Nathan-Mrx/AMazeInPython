@@ -497,3 +497,14 @@ class Maze:
         :return: La distance géodésique entre les deux cellules.
         """
         return len(self.solve_dfs(cell1, cell2)) - 1
+
+
+    def distance_man(self, cell1, cell2):
+        """
+        Calcule la distance de Manhattan entre deux cellules.
+
+        :param cell1: La première cellule.
+        :param cell2: La deuxième cellule.
+        :return: La distance de Manhattan entre les deux cellules.
+        """
+        return abs(cell1[0] - cell2[0]) + abs(cell1[1] - cell2[1])

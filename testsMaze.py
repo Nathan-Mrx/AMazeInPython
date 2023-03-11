@@ -7,3 +7,4 @@ str_solution[( 0,  0)] = 'D'
 str_solution[(7, 7)] = 'A'
 print(laby.overlay(str_solution))
 print(laby.distance_geo((0, 0), (7, 7)))
+print(laby.distance_man((0, 0), (7, 7)))
