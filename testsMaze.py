@@ -1,4 +1,4 @@
 from Maze import *
 
-Btree = Maze.gen_sidewinder(6, 12)
-print(Btree)
+fusion = Maze.gen_fusion(6, 12)
+print(fusion)

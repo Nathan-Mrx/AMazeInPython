@@ -88,7 +88,7 @@ class Maze:
         """
         Ajoute un mur entre c1 et c2.
 
-        :param c1: première cellule
+        :param c1: Première cellule
         :param c2: seconde cellule
         """
         # Facultatif : on teste si les sommets sont bien dans le labyrinthe
@@ -108,7 +108,7 @@ class Maze:
         """
         Retire le mur entre c1 et c2.
 
-        :param c1: première cellule
+        :param c1: Première cellule
         :param c2: seconde cellule
         """
         # On teste si les sommets sont bien dans le labyrinthe
@@ -174,8 +174,8 @@ class Maze:
         """
         Retourne la liste des cellules contigües à c dans la grille (sans s’occuper des éventuels murs)
 
-        :param c: tuple (x, y) contenant les coordonnées de la cellule à traiter
-        :return: liste des cellules contigües à c
+        :param c: Tuple (x, y) contenant les coordonnées de la cellule à traiter
+        :return: liste des cellules contigües à c.
         """
         x = c[0]
         y = c[1]
@@ -193,8 +193,8 @@ class Maze:
         Retourne la liste des cellules accessibles depuis c (c’est-à-dire les cellules contiguës à c qui sont dans le
         voisinage de c)
 
-        :param c: tuple (x, y) contenant les coordonnées de la cellule à traiter
-        :return: liste des cellules accessibles via c
+        :param c: Tuple (x, y) contenant les coordonnées de la cellule à traiter
+        :return: liste des cellules accessibles via c.
         """
         return [cell for cell in self.neighbors[c]]
 
@@ -202,7 +202,7 @@ class Maze:
         """
         Retourne la liste de toutes les cellules de la grille du labyrinthe.
 
-        :return: liste de cellules (x, y)
+        :return: Liste de cellules (x, y)
         """
         return [key for key in self.neighbors.keys()]
 
@@ -218,9 +218,9 @@ class Maze:
     @classmethod
     def gen_btree(cls, h, w):
         """
-        Génère une labyrinthe à h lignes et w colonnes, en utilisant l’algorithme de construction par arbre binaire.
+        Génère un labyrinthe à h lignes et w colonnes, en utilisant l’algorithme de construction par arbre binaire.
 
-        :param h: hauteur du labyrinthe
+        :param h: Hauteur du labyrinthe
         :param w: largeur du labyrinthe
         :return: le labyrinthe généré
         """
@@ -250,9 +250,9 @@ class Maze:
     @classmethod
     def gen_sidewinder(cls, h, w):
         """
-        Génère une labyrinthe à h lignes et w colonnes, en utilisant l’algorithme sidewinder.
+        Génère un labyrinthe à h lignes et w colonnes, en utilisant l’algorithme sidewinder.
 
-        :param h: hauteur du labyrinthe
+        :param h: Hauteur du labyrinthe
         :param w: largeur du labyrinthe
         :return: le labyrinthe généré
         """
@@ -285,4 +285,45 @@ class Maze:
             if laby.is_in_maze(east_cell):
                 laby.remove_wall(cell, east_cell)
 
+        return laby
+
+    @classmethod
+    def gen_fusion(cls, h, w):
+        """
+        Génère un labyrinthe à h lignes et w colonnes, en utilisant l’algorithme de fusion de chemins.
+
+        :param h: Hauteur du labyrinthe
+        :param w: largeur du labyrinthe
+        :return: le labyrinthe généré
+        """
+        # Création du labyrinthe initial avec tous les murs
+        laby = cls(h, w)
+
+        # Initialisation des labels pour chaque cellule
+        labels = {}
+        for i, j in laby.get_cells():
+            labels[(i, j)] = (i, j)
+
+        # Obtention de la liste de tous les murs et mélange aléatoire
+        walls = laby.get_walls()
+        r.shuffle(walls)
+
+        # Parcours des murs
+        for c1, c2 in walls:
+            if laby.is_in_maze(c1) and laby.is_in_maze(c2):
+                # Récupération des labels des deux cellules séparées par le mur
+                label1 = labels[c1]
+                label2 = labels[c2]
+                if label1 != label2:
+                    # Cassage du mur
+                    laby.remove_wall(c1, c2)
+
+                    # Fusion des chemins en affectant le label de label1 à toutes les cellules ayant le label de label2
+                    new_label = label2
+                    old_label = label1
+                    for cell in labels:
+                        if labels[cell] == old_label:
+                            labels[cell] = new_label
+
+        # Retour du labyrinthe finalisé
         return laby
