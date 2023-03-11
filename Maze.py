@@ -327,3 +327,82 @@ class Maze:
 
         # Retour du labyrinthe finalisé
         return laby
+
+
+    def overlay(self, content=None):
+        """
+        Rendu en mode texte, sur la sortie standard, \
+        d'un labyrinthe avec du contenu dans les cellules
+        Argument:
+            content (dict) : dictionnaire tq content[cell] contient le caractère à afficher au milieu de la cellule
+        Retour:
+            string
+        """
+        if content is None:
+            content = {(i,j):' ' for i in range(self.height) for j in range(self.width)}
+        else:
+            # Python >=3.9
+            #content = content | {(i, j): ' ' for i in range(
+            #    self.height) for j in range(self.width) if (i,j) not in content}
+            # Python <3.9
+            new_content = {(i, j): ' ' for i in range(self.height) for j in range(self.width) if (i,j) not in content}
+            content = {**content, **new_content}
+        txt = r""
+        # Première ligne
+        txt += "┏"
+        for j in range(self.width-1):
+            txt += "━━━┳"
+        txt += "━━━┓\n"
+        txt += "┃"
+        for j in range(self.width-1):
+            txt += " "+content[(0,j)]+" ┃" if (0,j+1) not in self.neighbors[(0,j)] else " "+content[(0,j)]+"  "
+        txt += " "+content[(0,self.width-1)]+" ┃\n"
+        # Lignes normales
+        for i in range(self.height-1):
+            txt += "┣"
+            for j in range(self.width-1):
+                txt += "━━━╋" if (i+1,j) not in self.neighbors[(i,j)] else "   ╋"
+            txt += "━━━┫\n" if (i+1,self.width-1) not in self.neighbors[(i,self.width-1)] else "   ┫\n"
+            txt += "┃"
+            for j in range(self.width):
+                txt += " "+content[(i+1,j)]+" ┃" if (i+1,j+1) not in self.neighbors[(i+1,j)] else " "+content[(i+1,j)]+"  "
+            txt += "\n"
+        # Bas du tableau
+        txt += "┗"
+        for i in range(self.width-1):
+            txt += "━━━┻"
+        txt += "━━━┛\n"
+        return txt
+
+
+    def solve_dfs(self, start, stop):
+        """
+        Résout le labyrinthe en utilisant le parcours en largeur.
+
+        :param start: Cellule servant de point de départ
+        :param stop: Cellule servant de point d'arrivée
+        :return: la liste des cellules à explorer dans l'ordre pour aller du point start à stop.
+        """
+        visited = []
+        pile = [start] # Placer start dans la struture d’attente (pile) et marquer start
+        found = False
+        predecesseurs = {start: start} # Mémoriser l’élément prédécesseur de start comme étant start
+        while len(visited) < self.width*self.height and not found: # Tant qu’il reste des cellules non-marquées
+            cell = pile.pop() # Prendre la « première » cellule et la retirer de la structure
+            if cell == stop:
+                found = True # on a trouvé un chemin vers la cellule de destination
+            else:
+                for neighbor in self.get_reachable_cells(cell): # Pour chaque voisine de cell
+                    if neighbor not in visited: # Si elle n’est pas marquée
+                        visited.append(neighbor) # La marquer
+                        pile.append(neighbor) # La mettre dans la structure d’attente
+                        predecesseurs[neighbor] = cell # Mémoriser son prédécesseur comme étant c
+
+        cell = stop
+        way = []
+        while cell != start:
+            way.append(cell)
+            cell = predecesseurs[cell] # mettre le prédécesseur de cell dans cell
+        way.append(start)
+
+        return way
