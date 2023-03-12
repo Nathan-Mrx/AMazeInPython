@@ -1,13 +1,17 @@
-from Maze import *
-from keyboard import *
-import os, time
+import os
+import time
 from math import inf
+
+from keyboard import *
+
+from Maze import *
 
 
 class Game:
     def __init__(self):
         self.player_position = (0, 0)
         self.end = (0, 0)
+        self.maze = Maze(1,1)
 
     def move_player(self, direction):
         """
@@ -33,7 +37,7 @@ class Game:
             self.player_position = (self.player_position[0] - 1, self.player_position[1])
         return self.player_position == self.end
 
-    def play_game(self, size, mode, algo, score=0, game_count=0, max_game_count=5, random_position=False):
+    def play_game(self, size, mode, algo, score=0, game_count=0, max_game_count=5):
         restart = False
         stop = False
         msg = ''
@@ -98,7 +102,7 @@ class Game:
             move_count = 0
             min_distance = self.maze.distance_geo(self.player_position, self.end)
             won = False
-            while not won and not stop:
+            while not won and not stop and not restart:
                 print('Appuyez sur les touches Z, Q, S, D pour vous déplacer')
                 print('Appuyez sur la touche X pour quitter')
                 print('Nombre de déplacements : ' + str(move_count))
@@ -108,7 +112,7 @@ class Game:
 
                 if direction == 'x':
                     stop = True
-                    break
+
 
                 old_position = self.player_position
                 won = self.move_player(direction)
@@ -123,7 +127,7 @@ class Game:
                 print(self.maze.overlay(display_cells))
 
                 while is_pressed('z') or is_pressed('q') or is_pressed('s') or is_pressed('d'):
-                    time.sleep(0.06)
+                    time.sleep(0.01)
                 move_count += 1
 
             if won:
@@ -143,9 +147,12 @@ class Game:
                     time.sleep(5)
                 os.system('cls' if os.name == 'nt' else 'clear')
 
+                if mode == 3 or mode == 4:
+                    size += 1
+
             os.system('cls' if os.name == 'nt' else 'clear')
             game_count += 1
 
         os.system('cls' if os.name == 'nt' else 'clear')
 
-        return stop
+        return stop, restart
