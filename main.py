@@ -6,6 +6,8 @@ import os, time
 
 stop = False
 
+os.system('cls' if os.name == 'nt' else 'clear')
+
 while not stop:
     print(  "   _     __  __   _    _______   _                  _   _",
             "  /_\   |  \/  | /_\  |_  / __| (_)_ _    _ __ _  _| |_| |_  ___ _ _",
