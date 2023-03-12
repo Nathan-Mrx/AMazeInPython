@@ -92,16 +92,16 @@ Dans le mode Random Endless, vous jouez autant de parties que vous le souhaitez.
 ### Difficulté
 
 #### Facile
-La difficulté facile génère un labyrinthe de 10x10 cases.
+La difficulté facile génère un labyrinthe de 8x8 cases.
 
 #### Moyen
-La difficulté moyenne génère un labyrinthe de 20x20 cases.
+La difficulté moyenne génère un labyrinthe de 16x16 cases.
 
 #### Difficile
-La difficulté difficile génère un labyrinthe de 30x30 cases.
+La difficulté difficile génère un labyrinthe de 24x24 cases.
 
 #### Expert
-La difficulté expert génère un labyrinthe de 40x40 cases.
+La difficulté expert génère un labyrinthe de 32x32 cases.
 
 ### Commandes
 Vous pouvez vous déplacer avec Z, Q, S, D. Vous pouvez quitter le jeu en appuyant sur X.
