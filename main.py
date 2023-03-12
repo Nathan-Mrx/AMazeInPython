@@ -1,19 +1,20 @@
-import keyboard
+import os
+import time
+
+from keyboard import *
 
 from Game import *
-from keyboard import *
-import os, time
 
 stop = False
 
 os.system('cls' if os.name == 'nt' else 'clear')
 
 while not stop:
-    print(  "   _     __  __   _    _______   _                  _   _",
-            "  /_\   |  \/  | /_\  |_  / __| (_)_ _    _ __ _  _| |_| |_  ___ _ _",
-            " / _ \  | |\/| |/ _ \  / /| _|  | | ' \  | '_ \ || |  _| ' \/ _ \ ' \ ",
-            "/_/ \_\ |_|  |_/_/ \_\/___|___| |_|_||_| | .__/\_, |\__|_||_\___/_||_|",
-            "                                         |_|   |__/", sep='\n')
+    print("   _     __  __   _    _______   _                  _   _",
+          "  /_\   |  \/  | /_\  |_  / __| (_)_ _    _ __ _  _| |_| |_  ___ _ _",
+          " / _ \  | |\/| |/ _ \  / /| _|  | | ' \  | '_ \ || |  _| ' \/ _ \ ' \ ",
+          "/_/ \_\ |_|  |_/_/ \_\/___|___| |_|_||_| | .__/\_, |\__|_||_\___/_||_|",
+          "                                         |_|   |__/", sep='\n')
 
     print("Veuillez choisir votre algorithme de génération de labyrinthe :",
           "1 - Arbre binaire",
@@ -68,7 +69,6 @@ while not stop:
 
         print(game.maze.overlay(display_cells))
 
-
         while is_pressed('z') or is_pressed('q') or is_pressed('s') or is_pressed('d'):
             time.sleep(0.06)
 
@@ -80,4 +80,3 @@ while not stop:
         os.system('cls' if os.name == 'nt' else 'clear')
 
 os.system('cls' if os.name == 'nt' else 'clear')
-

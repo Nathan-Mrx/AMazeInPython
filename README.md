@@ -15,8 +15,7 @@ La procédure d'installation est différente selon le système d'exploitation
    2. Une fenêtre s'ouvre alors, tapez 'cmd' et appuyez sur entrée
    3. Une autre fenêtre s'ouvre, entrez-y la commande suivante
 
-     
-    pip install keyboard
+          pip install keyboard
 
 3. Télécharger l'archive de ce dépôt et décompressez-là
 4. Lancez le fichier main.py avec des privilèges d'administrateurs
