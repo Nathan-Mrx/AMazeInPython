@@ -1,4 +1,3 @@
-from icecream import ic
 import random as r
 
 
