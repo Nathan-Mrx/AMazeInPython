@@ -40,7 +40,7 @@ class Game:
 
         os.system('cls' if os.name == 'nt' else 'clear')
 
-        while game_count < max_game_count and not stop:
+        while game_count < max_game_count and not stop and not restart:
 
             if game_count % 5 == 0:
                 algo = 1

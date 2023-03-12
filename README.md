@@ -70,11 +70,39 @@ La procédure d'installation est différente selon le système d'exploitation
 
 ## Utilisation
 
-Une fois le script lancé, il vous sera proposé de générer votre labyrinthe : pour cela, vous devrez sélectionner l'algorithme de génération de votre choix en entrant 1, 2, 3, 4 ou 5, puis la taille souhaitée pour le labyrinthe en entrant 1, 2, 3 ou 4.
+Une fois le script lancé, il vous sera proposé choisir un mode de jeu, puis une difficulté
 
-Le labyrinthe est alors généré. Votre personnage est représenté par la lettre P. L'arrivée est représentée par la lettre A. Vous pouvez vous déplacer en utilisant les touches Z, Q, S, D. 
+### Mode de jeu
 
-Pour quitter le jeu, appuyez sur X.
+#### Mode arcade
+Dans le mode arcade, vous jouez 5 parties à la suite. Vous commencez en haut à gauche du labythithe et devez aller en bas à gauche.
+
+#### Mode Endless
+Dans le mode Endless, vous jouez autant de parties que vous le souhaitez. Vous commencez en haut à gauche du labythithe et devez aller en bas à gauche.
+
+#### Mode Random Arcade
+Dans le mode Random Arcade, vous jouez 5 parties à la suite. Vous commencez et devez aller à un point aléatoire du labyrinthe.
+
+#### Mode Random Endless
+Dans le mode Random Endless, vous jouez autant de parties que vous le souhaitez. Vous commencez et devez aller à un point aléatoire du labyrinthe.
+
+### Difficulté
+
+#### Facile
+La difficulté facile génère un labyrinthe de 10x10 cases.
+
+#### Moyen
+La difficulté moyenne génère un labyrinthe de 20x20 cases.
+
+#### Difficile
+La difficulté difficile génère un labyrinthe de 30x30 cases.
+
+#### Expert
+La difficulté expert génère un labyrinthe de 40x40 cases.
+
+### Commandes
+Vous pouvez vous déplacer avec Z, Q, S, D. Vous pouvez quitter le jeu en appuyant sur X.
+
 
 ## Crédits
 

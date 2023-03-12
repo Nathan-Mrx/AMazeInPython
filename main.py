@@ -15,8 +15,8 @@ while not stop:
     print('Sélectionnez un mode de jeu :')
     print('1 - Arcade')
     print('2 - Endless')
-    print('3 - Random position Arcade')
-    print('4 - Random position Endless')
+    print('3 - Random Arcade')
+    print('4 - Random Endless')
     print('5 - Quitter')
 
     mode = int(input("Votre choix : ")[-1])
@@ -30,24 +30,21 @@ while not stop:
         print("2 - Moyen")
         print("3 - Difficile")
         print("4 - Expert")
-        print("5 - Impossible")
-        print("6 - Quitter")
+        print("5 - Quitter")
 
         difficulty = int(input("Votre choix : "))
 
         size = 0
-        if difficulty == 6:
+        if difficulty == 5:
             stop = True
         elif difficulty == 1:
-            size = 5
-        elif difficulty == 2:
             size = 10
-        elif difficulty == 3:
-            size = 15
-        elif difficulty == 4:
+        elif difficulty == 2:
             size = 20
-        elif difficulty == 5:
-            size = 25
+        elif difficulty == 3:
+            size = 30
+        elif difficulty == 4:
+            size = 40
         else:
             raise ValueError("Difficulté invalide")
 
