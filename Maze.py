@@ -396,8 +396,8 @@ class Maze:
                 txt += " " + content[(i + 1, j)] + " ┃" if (i + 1, j + 1) not in self.neighbors[(i + 1, j)] else " " + \
                                                                                                                  content[
                                                                                                                      (
-                                                                                                                     i + 1,
-                                                                                                                     j)] + "  "
+                                                                                                                         i + 1,
+                                                                                                                         j)] + "  "
             txt += "\n"
         # Bas du tableau
         txt += "┗"
@@ -486,7 +486,6 @@ class Maze:
                     current_direction = 'droite'
         return visited_cells
 
-
     def distance_geo(self, cell1, cell2):
         """
         Calcule la distance géodésique entre deux cellules.
@@ -496,7 +495,6 @@ class Maze:
         :return: La distance géodésique entre les deux cellules.
         """
         return len(self.solve_dfs(cell1, cell2)) - 1
-
 
     def distance_man(self, cell1, cell2):
         """

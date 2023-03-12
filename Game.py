@@ -3,12 +3,11 @@ from keyboard import *
 import os, time
 from math import inf
 
+
 class Game:
     def __init__(self):
         self.player_position = (0, 0)
         self.end = (0, 0)
-
-
 
     def move_player(self, direction):
         """
@@ -17,25 +16,24 @@ class Game:
         :param direction: La direction dans laquelle le joueur doit se déplacer
         :return: True si le joueur se trouve sur la case d'arrivée, False sinon
         """
-        if direction == 'q' and self.maze.is_in_maze( (self.player_position[0], self.player_position[1] - 1) ) and \
+        if direction == 'q' and self.maze.is_in_maze((self.player_position[0], self.player_position[1] - 1)) and \
                 (self.player_position[0], self.player_position[1] - 1) in self.maze.neighbors[self.player_position]:
             self.player_position = (self.player_position[0], self.player_position[1] - 1)
 
-        elif direction == 'd' and self.maze.is_in_maze( (self.player_position[0], self.player_position[1] + 1) ) and \
+        elif direction == 'd' and self.maze.is_in_maze((self.player_position[0], self.player_position[1] + 1)) and \
                 (self.player_position[0], self.player_position[1] + 1) in self.maze.neighbors[self.player_position]:
             self.player_position = (self.player_position[0], self.player_position[1] + 1)
 
-        elif direction == 's' and self.maze.is_in_maze( (self.player_position[0] + 1, self.player_position[1]) ) and \
+        elif direction == 's' and self.maze.is_in_maze((self.player_position[0] + 1, self.player_position[1])) and \
                 (self.player_position[0] + 1, self.player_position[1]) in self.maze.neighbors[self.player_position]:
             self.player_position = (self.player_position[0] + 1, self.player_position[1])
 
-        elif direction == 'z' and self.maze.is_in_maze( (self.player_position[0] - 1, self.player_position[1]) ) and \
+        elif direction == 'z' and self.maze.is_in_maze((self.player_position[0] - 1, self.player_position[1])) and \
                 (self.player_position[0] - 1, self.player_position[1]) in self.maze.neighbors[self.player_position]:
             self.player_position = (self.player_position[0] - 1, self.player_position[1])
         return self.player_position == self.end
 
-
-    def play_game(self, size, mode, algo, score = 0, game_count = 0, max_game_count = 5, random_position = False):
+    def play_game(self, size, mode, algo, score=0, game_count=0, max_game_count=5, random_position=False):
         restart = False
         stop = False
         msg = ''
@@ -151,4 +149,3 @@ class Game:
         os.system('cls' if os.name == 'nt' else 'clear')
 
         return stop
-
