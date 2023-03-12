@@ -17,6 +17,7 @@ class Game:
         else:
             raise ValueError("Algorithme invalide")
         self.algo = algo
+        self.start = (0, 0)
         self.end = (width - 1, height - 1)
         self.player_position = (0, 0)
 
@@ -32,12 +33,15 @@ class Game:
         if direction == 'q' and self.maze.is_in_maze( (self.player_position[0], self.player_position[1] - 1) ) and \
                 (self.player_position[0], self.player_position[1] - 1) in self.maze.neighbors[self.player_position]:
             self.player_position = (self.player_position[0], self.player_position[1] - 1)
+
         elif direction == 'd' and self.maze.is_in_maze( (self.player_position[0], self.player_position[1] + 1) ) and \
                 (self.player_position[0], self.player_position[1] + 1) in self.maze.neighbors[self.player_position]:
             self.player_position = (self.player_position[0], self.player_position[1] + 1)
+
         elif direction == 's' and self.maze.is_in_maze( (self.player_position[0] + 1, self.player_position[1]) ) and \
                 (self.player_position[0] + 1, self.player_position[1]) in self.maze.neighbors[self.player_position]:
             self.player_position = (self.player_position[0] + 1, self.player_position[1])
+
         elif direction == 'z' and self.maze.is_in_maze( (self.player_position[0] - 1, self.player_position[1]) ) and \
                 (self.player_position[0] - 1, self.player_position[1]) in self.maze.neighbors[self.player_position]:
             self.player_position = (self.player_position[0] - 1, self.player_position[1])
