@@ -10,14 +10,14 @@ La procédure d'installation est différente selon le système d'exploitation
 
 1. Vous devez installer [python](https://www.python.org/downloads/) depuis leur site officiel.
 
-2. Vous devrez ensuite installer un module à python:
+2. Vous devrez ensuite installer un module à python :
    1. Appuyez sur la touche Windows et R en même temps
    2. Une fenêtre s'ouvre alors, tapez 'cmd' et appuyez sur entrée
    3. Une autre fenêtre s'ouvre, entrez-y la commande suivante
 
           pip install keyboard
 
-3. Télécharger l'archive de ce dépôt et décompressez-là
+3. Télécharger l'archive de ce dépôt et décompressez-la
 4. Lancez le fichier main.py avec des privilèges d'administrateurs
 5. Profitez
 
@@ -51,19 +51,26 @@ La procédure d'installation est différente selon le système d'exploitation
 
         pip install keyboard
 
-4. Clonez le dépôt
+4. Installez Brew
 
-        sudo apt-get install git
-        git clone https://iut-info.univ-reims.fr/gitlab/dumo0057/sae-2-s2-labyrinthes-merieux-nathan-dumont-jaimy.git
+         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-5. lancez le fichier main.py
+5. Installez Git
+
+         brew install git
+
+6. Clonez le dépôt
+
+         git clone https://iut-info.univ-reims.fr/gitlab/dumo0057/sae-2-s2-labyrinthes-merieux-nathan-dumont-jaimy.git
+
+7. Lancez le fichier main.py
 
         cd sae-2-s2-labyrinthes-merieux-nathan-dumont-jaimy
         sudo python main.py
 
 ## Utilisation
 
-Une fois le script lancé, il vous sera proposé de généré votre labyrinthe: pour cela, vous devrez sélectionner l'algorithme de génération de votre choix en entrant 1, 2, 3, 4 ou 5, puis la taille souhaitée pour le labyrinthe en entrant 1, 2, 3 ou 4.
+Une fois le script lancé, il vous sera proposé de générer votre labyrinthe : pour cela, vous devrez sélectionner l'algorithme de génération de votre choix en entrant 1, 2, 3, 4 ou 5, puis la taille souhaitée pour le labyrinthe en entrant 1, 2, 3 ou 4.
 
 Le labyrinthe est alors généré. Votre personnage est représenté par la lettre P. L'arrivée est représentée par la lettre A. Vous pouvez vous déplacer en utilisant les touches Z, Q, S, D. 
 
