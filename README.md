@@ -86,4 +86,4 @@ Remerciements : Etienne Coutant, Olivier Nocent, Frédéric Blanchard pour nous 
 
 ## License
 
-AMazeInPython vous est distribué sous la license [Creative Commons](https://creativecommons.org/licenses/).
+AMazeInPython vous est distribué sous la license [Creative Commons](https://creativecommons.org/licenses/by/4.0/).
