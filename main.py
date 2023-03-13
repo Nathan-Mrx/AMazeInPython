@@ -37,34 +37,20 @@ while not stop:
         size = 0
         if difficulty == 5:
             stop = True
-        elif difficulty == 1:
-            size = 8
-        elif difficulty == 2:
-            size = 16
-        elif difficulty == 3:
-            size = 24
-        elif difficulty == 4:
-            size = 32
-        else:
-            raise ValueError("Difficulté invalide")
+        size = 8*difficulty
+
 
         max_game_count = 0
         game_count = 0
-        if mode == 1:
+        if mode == 1 or mode == 3:
             max_game_count = 5
-
-        elif mode == 2:
-            max_game_count = inf
-
-        elif mode == 3:
-            max_game_count = 5
-
-        elif mode == 4:
+        else:
             max_game_count = inf
 
         score = 0
 
         game = Game()
+
         while not restart and not stop:
             state = game.play_game(size, mode, 1, score, game_count, max_game_count)
             stop = state[0]
