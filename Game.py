@@ -147,7 +147,7 @@ class Game:
                     time.sleep(5)
                 os.system('cls' if os.name == 'nt' else 'clear')
 
-                if mode == 3 or mode == 4:
+                if mode == 2 or mode == 4:
                     size += 1
 
             os.system('cls' if os.name == 'nt' else 'clear')
