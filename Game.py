@@ -11,7 +11,7 @@ class Game:
     def __init__(self):
         self.player_position = (0, 0)
         self.end = (0, 0)
-        self.maze = Maze(1,1)
+        self.maze = Maze(1, 1)
 
     def move_player(self, direction):
         """
@@ -70,7 +70,7 @@ class Game:
                 self.maze = Maze.gen_exploration(size, size)
                 msg = 'd\'exploration exhausitve'
             elif algo == 5:
-                self.maze = Maze.gen_exploration(size, size)
+                self.maze = Maze.gen_wilson(size, size)
                 msg = 'de Wilson'
 
             if mode == 1 or mode == 2:
@@ -94,7 +94,7 @@ class Game:
                 print("Partie n°" + str(game_count + 1))
             print("Algorithme " + msg)
 
-            time.sleep(3)
+            time.sleep(1.5)
 
             os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -112,7 +112,6 @@ class Game:
 
                 if direction == 'x':
                     stop = True
-
 
                 old_position = self.player_position
                 won = self.move_player(direction)
@@ -143,8 +142,8 @@ class Game:
                         if is_pressed('x'):
                             restart = True
                 else:
-                    print("Prochaine partie dans 5 secondes...")
-                    time.sleep(5)
+                    print("Prochaine partie dans 3 secondes...")
+                    time.sleep(3)
                 os.system('cls' if os.name == 'nt' else 'clear')
 
                 if mode == 2 or mode == 4:
