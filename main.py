@@ -37,7 +37,7 @@ while not stop:
         size = 0
         if difficulty == 5:
             stop = True
-        size = 8*difficulty
+        size = 8 * difficulty
 
 
         max_game_count = 0

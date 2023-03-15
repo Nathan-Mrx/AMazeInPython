@@ -182,10 +182,8 @@ class Maze:
                             (x, y - 1),  # right
                             (x - 1, y),  # top
                             (x + 1, y)]  # bottom
-        for cell in contiguous_cells:
-            if not (self.is_in_maze(cell)):
-                contiguous_cells.remove(cell)
-        return contiguous_cells
+
+        return list(filter(self.is_in_maze, contiguous_cells))
 
     def get_reachable_cells(self, c: tuple) -> list:
         """
@@ -328,7 +326,14 @@ class Maze:
         return laby
 
     @classmethod
-    def gen_exploration(cls, w, h):
+    def gen_exploration(cls, h, w):
+        '''
+        Génère un labyrinthe à h lignes et w colonnes, en utilisant l’algorithme d'exploration aléatoire.
+
+        :param h: Hauteur du labyrinthe
+        :param w: largeur du labyrinthe
+        :return: le labyrinthe généré
+        '''
         # Initialise le labyrinthe avec une cellule recupérée aléatoirement dans les cellules disponibles.
         laby = cls(h, w)
         cellule_recup = laby.get_cells()
@@ -344,10 +349,9 @@ class Maze:
                 if cell not in visiter:
                     if laby.is_in_maze(cell):
                         non_visited.append(cell)
-            '''
-            Vérifie si la cellule est non visiter si c'est non visiter il remet sur la pile la cellule
-            et choisie une cellule aléatoirement parmis les non visiter et retire le mur entre les deux
-            '''
+
+            # Vérifie si la cellule est non visiter si c'est non visiter il remet sur la pile la cellule
+            # et choisie une cellule aléatoirement parmis les non visiter et retire le mur entre les deux
             if non_visited:
                 pile.insert(0, pile_haut)
                 ma_cellule = r.choice(non_visited)

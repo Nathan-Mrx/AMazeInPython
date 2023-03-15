@@ -10,7 +10,7 @@ La procédure d'installation est différente selon le système d'exploitation
 
 1. Vous devez installer [python](https://www.python.org/downloads/) depuis leur site officiel.
 
-2. Vous devrez ensuite installer un module à python :
+2. Vous devrez ensuite installer un module à python
    1. Appuyez sur la touche Windows et R en même temps
    2. Une fenêtre s'ouvre alors, tapez 'cmd' et appuyez sur entrée
    3. Une autre fenêtre s'ouvre, entrez-y la commande suivante
