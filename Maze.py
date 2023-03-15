@@ -360,6 +360,55 @@ class Maze:
                 pile.insert(0, ma_cellule)
         return laby
 
+    @classmethod
+    def gen_wilson(cls, h, w):
+        """
+        Génère un labyrinthe à h lignes et w colonnes, en utilisant l’algorithme de Wilson.
+
+        :param h: Hauteur du labyrinthe
+        :param w: largeur du labyrinthe
+        :return: le labyrinthe généré
+        """
+        # Génère un labyrinthe plein de murs
+        laby = cls(h, w)
+
+        # Génère la liste de toutes les cellules
+        available_cells = laby.get_cells()
+        r.shuffle(available_cells)  # Mélange -> Acces plus facile à une cellule aléatoire
+
+        # Visite une cellule aléatoire -> Retirer une cellule de la liste revient à la marquer comme visitée
+        available_cells.pop(0)
+
+        while available_cells:  # Tant qu'il reste des cellules non visitées
+            path = []  # Path contient toutes les cellules pour cette itération
+            current_cell = available_cells[0]  # On prends une cellule aléatoire (available_cells a été mélangé)
+
+            while current_cell in available_cells:  # Tant que current_cell n'est pas visitée
+                posibilities = laby.get_contiguous_cells(current_cell)  # Toute les cellules disponibles
+
+                # On retire de la liste des possibilités la cellule précédente
+                if path:
+                    posibilities.remove(path[-1])
+
+                path.append(current_cell)  # Ajoute la cellule courante au chemin
+                current_cell = r.choice(posibilities)  # On choisit une cellule aléatoire parmis les possibilités
+
+                if current_cell in path:  # Si on a fait un boucle
+                    path = path[0:path.index(current_cell)]  # On coupe le chemin à la boucle
+
+            path.append(current_cell)  # On n'oublie pas la dernière cellule
+
+            # On casse les murs !
+            for i in range(1, len(path)):
+                laby.remove_wall(path[i - 1], path[i])
+
+            # Et on les marque comme visitées
+            for cell in path[0:-1]:
+                available_cells.remove(cell)
+
+        return laby
+
+
     def overlay(self, content=None):
         """
         Rendu en mode texte, sur la sortie standard, \
