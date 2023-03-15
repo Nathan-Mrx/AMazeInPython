@@ -491,6 +491,40 @@ class Maze:
 
         return way
 
+
+    def solve_bfs(self, start, stop):
+        """
+        Résout le labyrinthe en utilisant le parcours en largeur.
+
+        :param start: Cellule servant de point de départ
+        :param stop: Cellule servant de point d'arrivée
+        :return: la liste des cellules à explorer dans l'ordre pour aller du point start à stop.
+        """
+        visited = []
+        file = [start]  # Placer start dans la struture d’attente (file) et marquer start
+        found = False
+        predecesseurs = {start: start}  # Mémoriser l’élément prédécesseur de start comme étant start
+        while len(visited) < self.width * self.height and not found:  # Tant qu’il reste des cellules non-marquées
+            cell = file.pop(0)  # Prendre la « première » cellule et la retirer de la structure
+            if cell == stop:
+                found = True  # on a trouvé un chemin vers la cellule de destination
+            else:
+                for neighbor in self.get_reachable_cells(cell):  # Pour chaque voisine de cell
+                    if neighbor not in visited:  # Si elle n’est pas marquée
+                        visited.append(neighbor)  # La marquer
+                        file.append(neighbor)  # La mettre dans la structure d’attente
+                        predecesseurs[neighbor] = cell  # Mémoriser son prédécesseur comme étant c
+
+        cell = stop
+        way = []
+        while cell != start:
+            way.append(cell)
+            cell = predecesseurs[cell]  # mettre le prédécesseur de cell dans cell
+        way.append(start)
+
+        return way
+
+
     def solve_rhr(self, start, stop):
         """
         Résout le labyrinthe en utilisant la technique de la main droite, à partir de la cellule de départ donnée.
