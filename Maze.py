@@ -533,7 +533,7 @@ class Maze:
         """
         # On initialise la cellule courante avec la cellule de départ et la direction avec 'droite'.
         current_cell = start
-        current_direction = 'droite'
+        current_direction = 'bas'
         visited_cells = [current_cell]
 
         while current_cell != stop:
