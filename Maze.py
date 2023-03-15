@@ -461,7 +461,7 @@ class Maze:
 
     def solve_dfs(self, start, stop):
         """
-        Résout le labyrinthe en utilisant le parcours en largeur.
+        Résout le labyrinthe en utilisant le parcours en profondeur.
 
         :param start: Cellule servant de point de départ
         :param stop: Cellule servant de point d'arrivée
